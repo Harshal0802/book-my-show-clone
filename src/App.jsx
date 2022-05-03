@@ -1,8 +1,10 @@
 //HOC
 import DefaultHOC from "./HOC/Default.HOC";
+import MovieHOC from "./HOC/Movie.HOC";
 
 //Pages
 import HomePage from "./Pages/Home.page";
+import MoviePage from "./Pages/Movie.page";
 
 //css files for React slick sliders
 import "slick-carousel/slick/slick.css";
@@ -13,6 +15,7 @@ function App() {
   return (
     <>
       <DefaultHOC path="/" exact component={HomePage} />
+      <MovieHOC path="/movie/:id" exact component={MoviePage} />
     </> 
   );
 }

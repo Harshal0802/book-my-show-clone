@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HeroSlider from "react-slick";
+import axios from "axios";
 
 //components
 import { NextArrow, PrevArrow } from "./Arrows.component";
 
 const HeroCarousel = () => {
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const requestNowPlayingMovies = async () => {
+      const getImages = await axios.get("/movie/now_playing");
+      setImages(getImages.data.results);
+    };
+
+    requestNowPlayingMovies();
+  }, []);
+
   // settings for sliders for large screen
   const settingsLg = {
     arrows: true,
@@ -29,28 +41,27 @@ const HeroCarousel = () => {
     prevArrow: <PrevArrow />,
   };
 
-  const images = [
-    "https://images.unsplash.com/photo-1649859396073-13ff3244ec1d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-    "https://images.unsplash.com/photo-1650741565833-1c19f0890075?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-  ];
-
   return (
     <div>
       <div className="lg:hidden">
         <HeroSlider {...settings}>
-          {images.map((img) => (
+          {images.map((image) => (
             <div className="w-full h-50 md:h-80 py-3">
-              <img src={img} alt="images" className="w-full h-full" />
+              <img
+                src={`https://image.tmdb.org/t/p/original${image.backdrop_path}`}
+                alt="images"
+                className="w-full h-full"
+              />
             </div>
           ))}
         </HeroSlider>
       </div>
       <div className="hidden lg:block">
         <HeroSlider {...settingsLg}>
-          {images.map((img) => (
+          {images.map((image) => (
             <div className="w-full h-96 px-2 py-3">
               <img
-                src={img}
+                src={`https://image.tmdb.org/t/p/original${image.backdrop_path}`}
                 alt="images"
                 className="w-full h-full rounded-md"
               />

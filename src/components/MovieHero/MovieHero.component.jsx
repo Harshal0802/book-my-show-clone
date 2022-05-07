@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 //component
 import MovieInfo from "./MovieInfo.component";
 
+//useContext
+import { MovieContext } from "../../context/movie.context";
+
 const MovieHero = () => {
+  const { movie } = useContext(MovieContext);
   return (
     <>
       <div>
@@ -17,7 +21,7 @@ const MovieHero = () => {
           </div>
           <div className="w-full h-56 bg-opacity-50 absolute bg-black z-10 bottom-0" />
           <img
-            src="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/doctor-strange-in-the-multiverse-of-madness-et00310791-07-04-2022-05-54-25.jpg"
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             alt="poster"
             className="w-full h-full"
           />
@@ -33,12 +37,12 @@ const MovieHero = () => {
             <MovieInfo />
           </div>
           <img
-            src="https://assets-in.bmscdn.com/iedb/movies/images/mobile/listing/xxlarge/doctor-strange-in-the-multiverse-of-madness-et00310791-07-04-2022-05-54-25.jpg"
+            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt="poster"
             className="w-full h-full"
           />
         </div>
-        
+
         {/* large  */}
         <div
           className="relative hidden w-full lg:block"
@@ -54,7 +58,7 @@ const MovieHero = () => {
           <div className="absolute z-30 left-24 top-16 flex items-center gap-10">
             <div className="w-64 h-96">
               <img
-                src="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/doctor-strange-in-the-multiverse-of-madness-et00310791-07-04-2022-05-54-25.jpg"
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 alt="poster"
                 className="w-full h-full rounded-2xl"
               />
@@ -64,7 +68,7 @@ const MovieHero = () => {
             </div>
           </div>
           <img
-            src="https://assets-in.bmscdn.com/iedb/movies/images/mobile/listing/xxlarge/doctor-strange-in-the-multiverse-of-madness-et00310791-07-04-2022-05-54-25.jpg"
+            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
             alt="poster"
             className="w-full h-full"
           />

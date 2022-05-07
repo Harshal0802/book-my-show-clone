@@ -1,15 +1,49 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { SiPaytm } from "react-icons/si";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Slider from "react-slick";
 
 //Component
 import MovieHero from "../components/MovieHero/MovieHero.component";
 import Cast from "../components/Cast/cast.component";
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
 
-//config
-import PosterImages from "../config/TempPoster.config";
+//context
+import { MovieContext } from "../context/movie.context";
 
 const Movie = () => {
+  const { id } = useParams();
+  const { movie } = useContext(MovieContext);
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [recommondedMovies, setRecommondedMovies] = useState([]);
+
+
+  useEffect(() => {
+    const requestCast = async () => {
+      const getCast = await axios.get(`/movie/${id}/credits`);
+      setCast(getCast.data.cast);
+    };
+    requestCast();
+  }, [id]);
+
+  useEffect(() => {
+    const requestSimilarMovies = async () => {
+      const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+      setSimilarMovies(getSimilarMovies.data.results);
+    };
+    requestSimilarMovies();
+  },[id]);
+
+  useEffect(() => {
+    const requestRecommondedMovies = async () => {
+      const getRecommondedMovies = await axios.get(`/movie/${id}/recommendations`);
+      setRecommondedMovies(getRecommondedMovies.data.results);
+    };
+    requestRecommondedMovies();
+  },[id]);
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -43,17 +77,45 @@ const Movie = () => {
     ],
   };
 
+  const settingsCast = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       <MovieHero />
-      <div className="my-12 container px-4 lg:w-2/3 lg:px-28">
+      <div className="my-12 container px-4 lg:w-4/5 lg:px-28">
         <div className="flex flex-col items-start gap-3">
           <h2 className="text-gray-800 font-bold text-2xl">About the movie</h2>
-          <p>
-            Doctor Strange in the Multiverse of Madness - a thrilling ride
-            through the Multiverse with Doctor Strange, his trusted friend Wong
-            and Wanda Maximoff, aka Scarlet Witch.
-          </p>
+          <p>{movie.overview}</p>
         </div>
         <div className="my-8">
           <hr />
@@ -98,28 +160,16 @@ const Movie = () => {
         </div>
         <div className="my-8">
           <h3 className="text-gray-800 font-bold text-2xl mb-3">Cast & Crew</h3>
-          <div className="flex flex-wrap gap-4">
-            <Cast
-              img="https://assets-in.bmscdn.com/iedb/artist/images/website/poster/large/benedict-cumberbatch-6466-25-04-2018-02-01-01.jpg"
-              castName="Benedict Cumberbatch"
-              role="Dr.Stephen Strange"
-            />
-            <Cast
-              img="https://assets-in.bmscdn.com/iedb/artist/images/website/poster/large/elizabeth-olsen-31135-24-03-2017-17-32-16.jpg"
-              castName="Elizabeth Olsen"
-              role="Wanda Maximoff"
-            />
-            <Cast
-              img="https://assets-in.bmscdn.com/iedb/artist/images/website/poster/large/rachel-mcadams-10133-13-02-2018-01-20-32.jpg"
-              castName="Rachel McAdams"
-              role="Dr. Christine Palmer"
-            />
-            <Cast
-              img="https://assets-in.bmscdn.com/iedb/artist/images/website/poster/large/benedict-wong-300-05-04-2019-02-57-20.jpg"
-              castName="Benedict Wong"
-              role="Wong"
-            />
-          </div>
+          <Slider {...settingsCast}>
+            {cast.map((castData) => (
+              <Cast
+                img={`https://image.tmdb.org/t/p/original/${castData.profile_path}`}
+                castName={castData.original_name}
+                role={castData.character}
+                key={castData.id}
+              />
+            ))}
+          </Slider>
         </div>
         <div className="my-8">
           <hr />
@@ -127,7 +177,7 @@ const Movie = () => {
         <div className="my-8">
           <PosterSlider
             config={settings}
-            images={PosterImages}
+            images={similarMovies}
             title="You might also like"
             isDark={false}
           />
@@ -138,8 +188,8 @@ const Movie = () => {
         <div className="my-8">
           <PosterSlider
             config={settings}
-            images={PosterImages}
-            title="BMX XCLUSIVE"
+            images={recommondedMovies}
+            title="Recommonded"
             isDark={false}
           />
         </div>

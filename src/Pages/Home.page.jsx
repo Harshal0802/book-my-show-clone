@@ -1,13 +1,48 @@
-import React from "react";
+import axios from "axios";
+import React, {useState, useEffect} from "react";
 
 //Components
 import EntertainmentCardSlider from "../components/Entertainment/EntertainmentCard.component";
 import PosterSlider from "../components/PosterSlider/PosterSlider.component"
 
-//config
-import PosterImages from "../config/TempPoster.config";
+// // config
+// import TempPosters from "../config/TempPosters.config";
 
 const HomePage = () => {
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  
+  //popularMovies
+  useEffect(() => {
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("/movie/popular");
+      setPopularMovies(getPopularMovies.data.results);
+    };
+
+    requestPopularMovies();
+  },[]);
+
+  //topRatedMovies
+  useEffect(() => {
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("/movie/top_rated");
+      setTopRatedMovies(getTopRatedMovies.data.results);
+    };
+
+    requestTopRatedMovies();
+  }, []);
+
+  // upcomingMovies
+  useEffect(() => {
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("/movie/upcoming");
+      setUpcomingMovies(getUpcomingMovies.data.results);
+    };
+
+    requestUpcomingMovies();
+  }, []);
+
     return (
       <>
         <div className="flex flex-col gap-10">
@@ -21,7 +56,7 @@ const HomePage = () => {
                 <img src="https://assets-in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120:q-80/premiere-rupay-banner-web-collection-202104230555.png" alt="Premier" className="w-full h-full"/>
               </div>
               <PosterSlider 
-                images={PosterImages} 
+                images={popularMovies} 
                 title="Premieres" 
                 subtitle="Brand new releases every friday" 
                 isDark
@@ -31,43 +66,36 @@ const HomePage = () => {
         </div>
         <div className="container mx-auto px-4 lg:px-28 my-8">
               <PosterSlider 
-                images={PosterImages} 
+                images={topRatedMovies} 
                 title="Online Streaming Events" 
                 isDark={false}
               />
         </div>
         <div className="container mx-auto px-4 lg:px-28 my-8">
               <PosterSlider 
-                images={PosterImages} 
+                images={upcomingMovies} 
                 title="Outdoor Events" 
                 isDark={false}
               />
         </div>
         <div className="container mx-auto px-4 lg:px-28 my-8">
               <PosterSlider 
-                images={PosterImages} 
+                images={popularMovies} 
                 title="Laughter Therapy" 
                 isDark={false}
               />
         </div>
         <div className="container mx-auto px-4 lg:px-28 my-8">
               <PosterSlider 
-                images={PosterImages} 
+                images={topRatedMovies} 
                 title="Popular Events" 
                 isDark={false}
               />
         </div>
         <div className="container mx-auto px-4 lg:px-28 my-8">
               <PosterSlider 
-                images={PosterImages} 
+                images={upcomingMovies} 
                 title="The Latest Plays" 
-                isDark={false}
-              />
-        </div>
-        <div className="container mx-auto px-4 lg:px-28 my-8">
-              <PosterSlider 
-                images={PosterImages} 
-                title="Top Games & Sports Events" 
                 isDark={false}
               />
         </div>

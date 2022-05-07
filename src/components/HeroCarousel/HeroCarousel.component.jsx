@@ -16,7 +16,6 @@ const HeroCarousel = () => {
 
     requestNowPlayingMovies();
   }, []);
-
   // settings for sliders for large screen
   const settingsLg = {
     arrows: true,

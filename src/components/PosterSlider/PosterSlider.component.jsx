@@ -13,7 +13,7 @@ const PosterSlider = (props) => {
     <>
       <div className="flex flex-col items-start my-2">
         <h3
-          className={`text-2xl font-bold ${
+          className={`text-2xl font-bold my-2 ${
             props.isDark ? "text-white" : "text-gray-800"
           }`}
         >
@@ -27,7 +27,7 @@ const PosterSlider = (props) => {
       </div>
       <Slider {...sliderConfig}>
         {props.images.map((image) => (
-          <Poster {...image} key={image.id} isDark={props.isDark} />
+          <Poster {...image} isDark={props.isDark} />
         ))}
       </Slider>
     </>

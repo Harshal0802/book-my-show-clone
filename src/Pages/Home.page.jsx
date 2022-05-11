@@ -64,7 +64,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className="container mx-auto px-4 lg:px-28 my-8">
+        <div className="container mx-auto px-4 lg:px-28 my-10">
               <PosterSlider 
                 images={topRatedMovies} 
                 title="Online Streaming Events" 

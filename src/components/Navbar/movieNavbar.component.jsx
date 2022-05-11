@@ -1,10 +1,5 @@
 import React, { useContext } from "react";
-import {
-  BiMenu, 
-  BiSearch,
-  BiChevronDown,
-  BiShareAlt
-} from "react-icons/bi";
+import { BiMenu, BiSearch, BiChevronDown, BiShareAlt } from "react-icons/bi";
 
 import { MovieContext } from "../../context/movie.context";
 
@@ -14,7 +9,7 @@ const NavbarSm = () => {
     <>
       <div className="text-white flex items-center justify-between">
         <div>
-          <h3 className="text-2xl font-bold">{movie.original_title}</h3> 
+          <h3 className="text-2xl font-bold">{movie.original_title}</h3>
         </div>
         <div className="w-8 h-8">
           <BiShareAlt className="w-full h-full" />
@@ -28,13 +23,15 @@ const NavbarLg = () => {
   return (
     <div className="container mx-auto px-4 flex items-center justify-between">
       <div className="flex items-center w-1/2 gap-3">
-        <div className="w-12 h-12">
-          <img
-            src="https://i.ibb.co/zPBYW3H/imgbin-bookmyshow-office-android-ticket-png.png"
-            alt="logo"
-            className="w-full h-full"
-          />
-        </div>
+        <a href="/">
+          <div className="w-12 h-12">
+            <img
+              src="https://i.ibb.co/zPBYW3H/imgbin-bookmyshow-office-android-ticket-png.png"
+              alt="logo"
+              className="w-full h-full"
+            />
+          </div>
+        </a>
         <div className="w-full flex items-center gap-3 bg-white py-2 px-3 rounded-md">
           <BiSearch />
           <input
@@ -68,7 +65,7 @@ const MovieNavbar = () => {
           <NavbarSm />
         </div>
         <div className="hidden md:block lg:hidden">
-        <NavbarSm />
+          <NavbarSm />
         </div>
         <div className="hidden w-full lg:flex">
           <NavbarLg />
